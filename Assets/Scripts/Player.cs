@@ -4,13 +4,16 @@ using UnityEngine;
 public class Player : NetworkBehaviour
 {
     [SerializeField] private string _name;
-    [SerializeField] private int _health;
 
     [Header("Movement")]
     [SerializeField] private float _maxSpeed = 10f;
     [SerializeField] private float _acceleration = 52f;
     [SerializeField] private float _decceleration = 52f;
     [SerializeField] private float _turnSpeed = 80f;
+
+    [Header("Camera Following")]
+    [SerializeField] private Vector3 _offset;
+    [SerializeField] private float _smothing =1f;
 
     private Vector2 _desiredVelocity;
     private Vector2 _velocity;
@@ -21,13 +24,12 @@ public class Player : NetworkBehaviour
     private bool _isPressingKey;
 
     private Rigidbody2D _rigidbody;
+    private Camera _camera;
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-
-        if (_rigidbody == null)
-            Debug.Log("Rigidbody is null");
+        _camera = Camera.main;
     }
 
     private void Update()
@@ -44,9 +46,20 @@ public class Player : NetworkBehaviour
 
     private void FixedUpdate()
     {
+        if (!isLocalPlayer)
+            return;
+
         _velocity = _rigidbody.velocity;
 
         Move();
+        CameraMovement();
+    }
+
+    private void CameraMovement()
+    {
+        var nextPosition = Vector3.Lerp(_camera.transform.position, transform.position + _offset, Time.fixedDeltaTime * _smothing);
+
+        _camera.transform.position = nextPosition;
     }
 
     private void ChangeSpriteDirection()
