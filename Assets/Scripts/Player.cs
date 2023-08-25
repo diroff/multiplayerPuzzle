@@ -1,5 +1,6 @@
 using Mirror;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Player : NetworkBehaviour
 {
@@ -15,6 +16,8 @@ public class Player : NetworkBehaviour
     [SerializeField] private Vector3 _offset;
     [SerializeField] private float _smothing =1f;
 
+    private int _coins;
+
     private Vector2 _desiredVelocity;
     private Vector2 _velocity;
     private Vector2 _input;
@@ -26,10 +29,18 @@ public class Player : NetworkBehaviour
     private Rigidbody2D _rigidbody;
     private Camera _camera;
 
+    public int Coins => _coins;
+    public UnityAction<int> CoinsCountChanged;
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _camera = Camera.main;
+    }
+
+    private void Start()
+    {
+        CoinsCountChanged?.Invoke(_coins);
     }
 
     private void Update()
@@ -53,6 +64,12 @@ public class Player : NetworkBehaviour
 
         Move();
         CameraMovement();
+    }
+
+    public void AddCoins(int count)
+    {
+        _coins += count;
+        CoinsCountChanged?.Invoke(_coins);
     }
 
     private void CameraMovement()
