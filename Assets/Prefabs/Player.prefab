@@ -63,6 +63,9 @@ MonoBehaviour:
   _turnSpeed: 80
   _offset: {x: 0, y: 0.5, z: -10}
   _smothing: 6
+  _bullet: {fileID: 8491132345595977972, guid: 4f2dfafa0c26af8449b02bb130514e9a, type: 3}
+  _delay: 1
+  _spawnPoint: {fileID: 2077059170862256845}
 --- !u!212 &2077059170862256834
 SpriteRenderer:
   m_ObjectHideFlags: 0
