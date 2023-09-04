@@ -1,8 +1,9 @@
+using Mirror;
 using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class HealthComponent : MonoBehaviour
+public class HealthComponent : NetworkBehaviour
 {
     [SerializeField] private int _health;
     [SerializeField] private UnityEvent _onDamage;
