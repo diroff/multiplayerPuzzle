@@ -17,9 +17,7 @@ public class Player : NetworkBehaviour
     [SerializeField] private float _smothing = 1f;
 
     [Header("Shooting")]
-    [SerializeField] private Bullet _bullet;
-    [SerializeField] private float _delay;
-    [SerializeField] private Transform _spawnPoint;
+    [SerializeField] private Weapon _weapon;
 
     private int _coins;
 
@@ -29,7 +27,6 @@ public class Player : NetworkBehaviour
 
     private float _maxSpeedChange;
     private float _speedLimiter = 0.7f;
-    private float _timeFromLastShoot;
 
     private bool _isPressingKey;
     private bool _normalSprite = true;
@@ -50,7 +47,6 @@ public class Player : NetworkBehaviour
     private void Start()
     {
         CoinsCountChanged?.Invoke(_coins);
-        _timeFromLastShoot = _delay;
     }
 
     private void Update()
@@ -61,21 +57,8 @@ public class Player : NetworkBehaviour
         GetInput();
         PressingKeyCheck();
 
-        TimeChecker();
-
-        if (Input.GetKey(KeyCode.Space) && _timeFromLastShoot >= _delay)
-        {
-            _timeFromLastShoot = 0f;
-
-            Vector3 direction;
-
-            if (_normalSprite)
-                direction = Vector3.right;
-            else
-                direction = Vector3.left;
-
-            CmdShoot(direction);
-        } 
+        if (Input.GetKey(KeyCode.Space))
+            _weapon.Shoot(_normalSprite);
 
         _desiredVelocity = new Vector2(_input.x, _input.y) * Mathf.Max(_maxSpeed, 0f);
     }
@@ -95,21 +78,6 @@ public class Player : NetworkBehaviour
     {
         _coins += count;
         CoinsCountChanged?.Invoke(_coins);
-    }
-
-    [Command]
-    private void CmdShoot(Vector3 direction)
-    {
-        var spawnObject = Instantiate(_bullet, _spawnPoint.position, Quaternion.identity);
-
-        spawnObject.Move(direction);
-        NetworkServer.Spawn(spawnObject.gameObject);
-    }
-
-    private void TimeChecker()
-    {
-        if (_timeFromLastShoot < _delay)
-            _timeFromLastShoot += Time.deltaTime;
     }
 
     private void CameraMovement()
