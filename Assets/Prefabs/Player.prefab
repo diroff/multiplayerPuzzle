@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2077059170862256845}
   - component: {fileID: 8323528816290149443}
   - component: {fileID: 2077059170862256834}
-  - component: {fileID: -7935278392799471726}
   - component: {fileID: 2077059170862256844}
   - component: {fileID: 2077059170862256832}
   - component: {fileID: 2077059170862256835}
@@ -64,7 +63,7 @@ MonoBehaviour:
   _offset: {x: 0, y: 0.5, z: -10}
   _smothing: 6
   _bullet: {fileID: 8491132345595977972, guid: 4f2dfafa0c26af8449b02bb130514e9a, type: 3}
-  _delay: 1
+  _delay: 0.2
   _spawnPoint: {fileID: 2077059170862256845}
 --- !u!212 &2077059170862256834
 SpriteRenderer:
@@ -118,23 +117,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-7935278392799471726
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2077059170862256847}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b0dfdcd1bf962146ab81388a3a2a492, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  _spawnObject: {fileID: 4178319603771161626, guid: 34bc4cb833d957e4283cdf02bbf094b7, type: 3}
-  _spawnPositionOffset: {x: -3, y: 0, z: 0}
 --- !u!114 &2077059170862256844
 MonoBehaviour:
   m_ObjectHideFlags: 0
