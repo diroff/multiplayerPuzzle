@@ -7,6 +7,12 @@ public class DestroyObjectComponent : NetworkBehaviour
 
     public void DestroyObject()
     {
-        Destroy(_objectToDestroy);
+        //Destroy(_objectToDestroy);
+        NetworkServer.Destroy(_objectToDestroy);
+    }
+
+    public void DestroyObject(GameObject gameObject)
+    {
+        NetworkServer.Destroy(gameObject);
     }
 }
