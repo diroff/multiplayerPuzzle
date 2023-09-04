@@ -12,6 +12,15 @@ public class Spawner : NetworkBehaviour
     [SerializeField] private float _yMinimumRange;
     [SerializeField] private float _yMaximumRange;
 
+    private void Update()
+    {
+        if (!isLocalPlayer)
+            return;
+
+        if(Input.GetKeyDown(KeyCode.E))
+            CmdSpawnObject(new Vector3(transform.position.x + 0.2f, transform.position.y, 0));
+    }
+
     [Command]
     public void CmdSpawnObject(Vector3 spawnPoint)
     {
@@ -19,11 +28,22 @@ public class Spawner : NetworkBehaviour
         NetworkServer.Spawn(spawnObject);
     }
 
-    private void StartObjectsSpawn()
+    [Server]
+    private void SrvSpawnObject()
     {
-        if (!isServer)
-            return;
+        Vector3 spawnPoint = transform.position;
 
+        var spawnObject = Instantiate(_spawnObject, spawnPoint, Quaternion.identity);
+        NetworkServer.Spawn(spawnObject);
+    }
+
+    public void ServerSpawn()
+    {
+        SrvSpawnObject();
+    }
+
+    public void SpawnObjects()
+    {
         RangeValidation();
 
         for (int i = 0; i < _spawnCount; i++)
