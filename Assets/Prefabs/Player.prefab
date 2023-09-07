@@ -60,6 +60,7 @@ MonoBehaviour:
   syncInterval: 0
   _name: Sraka
   _animator: {fileID: 3109219925585015182}
+  _timeToRespawn: 3
   _maxSpeed: 10
   _acceleration: 52
   _decceleration: 52
@@ -325,7 +326,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  _health: 10
+  _health: 5
   _onDamage:
     m_PersistentCalls:
       m_Calls:

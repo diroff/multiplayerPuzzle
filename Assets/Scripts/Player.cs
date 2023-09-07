@@ -6,6 +6,7 @@ public class Player : NetworkBehaviour
 {
     [SerializeField] private string _name;
     [SerializeField] private Animator _animator;
+    [SerializeField] private float _timeToRespawn;
 
     [Header("Movement")]
     [SerializeField] private float _maxSpeed = 10f;
@@ -23,7 +24,8 @@ public class Player : NetworkBehaviour
     private CoinsDisplayer _coinsDisplayer;
 
     private HealthComponent _health;
-
+    
+    private float _timeFromDie;
     private int _coins;
 
     private Vector2 _desiredVelocity;
@@ -67,6 +69,14 @@ public class Player : NetworkBehaviour
 
         if (!_health.IsAlive)
         {
+            bool canRespawn = _timeFromDie >= _timeToRespawn;
+
+            if (!canRespawn)
+            {
+                _timeFromDie += Time.deltaTime;
+                return;
+            }
+
             if (Input.GetKeyDown(KeyCode.F))
                 Respawn();
             
@@ -105,6 +115,14 @@ public class Player : NetworkBehaviour
         _health.Respawn();
         _rigidbody.simulated = true;
         _animator.SetBool("dead", false);
+        SetPosition();
+        _timeFromDie = 0f;
+    }
+
+    [ClientRpc]
+    private void SetPosition()
+    {
+        transform.position = NetworkManager.singleton.GetStartPosition().position;
     }
 
     public void AddCoins(int count)
