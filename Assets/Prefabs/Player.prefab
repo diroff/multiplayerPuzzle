@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 3109219925585015182}
   - component: {fileID: 2122657162537365835}
   - component: {fileID: -9029704812379352573}
+  - component: {fileID: 2683393077437958166}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -58,6 +59,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   _name: Sraka
+  _animator: {fileID: 3109219925585015182}
   _maxSpeed: 10
   _acceleration: 52
   _decceleration: 52
@@ -308,6 +310,58 @@ MonoBehaviour:
   _xMaximumRange: 0.5
   _yMinimumRange: 0
   _yMaximumRange: 0.5
+--- !u!114 &2683393077437958166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2077059170862256847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4469d609ffbf95948949bba5b84cfa09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  _health: 10
+  _onDamage:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3109219925585015182}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: hit
+          m_BoolArgument: 0
+        m_CallState: 2
+  _onHeal:
+    m_PersistentCalls:
+      m_Calls: []
+  _onDie:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8323528816290149443}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: Dead
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _onChange:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &6327030169835744727
 GameObject:
   m_ObjectHideFlags: 0
@@ -335,9 +389,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6327030169835744727}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.504, y: -0.315, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
-  m_ConstrainProportionsScale: 1
+  m_LocalPosition: {x: 0.489, y: -0.35, z: 0}
+  m_LocalScale: {x: 0.1, y: 0.04, z: 0.1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6748267104455274500}
   m_Father: {fileID: 2077059170862256845}
@@ -385,7 +439,7 @@ SpriteRenderer:
   m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 228891a7ea0915d44876bd0a795fc86c, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.4339623, g: 0, b: 0.046110686, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -437,6 +491,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   _bullet: {fileID: 8491132345595977972, guid: 4f2dfafa0c26af8449b02bb130514e9a, type: 3}
+  _ignoreCollider: {fileID: 2077059170862256832}
   _delay: 0.5
   _spawnPoint: {fileID: 6748267104455274500}
 --- !u!1 &8905729913445784034
@@ -463,7 +518,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8905729913445784034}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.26, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

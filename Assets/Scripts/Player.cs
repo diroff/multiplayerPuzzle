@@ -5,6 +5,7 @@ using UnityEngine.Events;
 public class Player : NetworkBehaviour
 {
     [SerializeField] private string _name;
+    [SerializeField] private Animator _animator;
 
     [Header("Movement")]
     [SerializeField] private float _maxSpeed = 10f;
@@ -18,6 +19,10 @@ public class Player : NetworkBehaviour
 
     [Header("Shooting")]
     [SerializeField] private Weapon _weapon;
+
+    private CoinsDisplayer _coinsDisplayer;
+
+    private HealthComponent _health;
 
     private int _coins;
 
@@ -35,24 +40,38 @@ public class Player : NetworkBehaviour
     private Camera _camera;
 
     public int Coins => _coins;
+    public HealthComponent Health => _health;
 
     public UnityAction<int> CoinsCountChanged;
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+        _health = GetComponent<HealthComponent>();
         _camera = Camera.main;
     }
 
     private void Start()
     {
-        CoinsCountChanged?.Invoke(_coins);
+        if (!isLocalPlayer)
+            return;
+
+        _coinsDisplayer = FindObjectOfType<CoinsDisplayer>(); //fix it please
+        _coinsDisplayer.SetPlayer(this);
     }
 
     private void Update()
     {
         if (!isLocalPlayer)
             return;
+
+        if (!_health.IsAlive)
+        {
+            if (Input.GetKeyDown(KeyCode.F))
+                Respawn();
+            
+            return;
+        }
 
         GetInput();
         PressingKeyCheck();
@@ -72,6 +91,20 @@ public class Player : NetworkBehaviour
 
         Move();
         CameraMovement();
+    }
+
+    public void Dead()
+    {
+        _rigidbody.simulated = false;
+        _animator.SetBool("dead", true);
+    }
+
+    [Command]
+    public void Respawn()
+    {
+        _health.Respawn();
+        _rigidbody.simulated = true;
+        _animator.SetBool("dead", false);
     }
 
     public void AddCoins(int count)

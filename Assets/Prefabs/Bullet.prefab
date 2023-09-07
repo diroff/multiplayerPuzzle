@@ -76,7 +76,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   _power: 35
+  _damage: 1
   _lifeTime: 2
+  _collider: {fileID: 8491132345595977971}
 --- !u!212 &8491132345595977974
 SpriteRenderer:
   m_ObjectHideFlags: 0

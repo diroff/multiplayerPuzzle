@@ -4,6 +4,7 @@ using UnityEngine;
 public class Weapon : NetworkBehaviour
 {
     [SerializeField] private Bullet _bullet;
+    [SerializeField] private Collider2D _ignoreCollider;
     [SerializeField] private float _delay;
     [SerializeField] private Transform _spawnPoint;
 
@@ -49,8 +50,16 @@ public class Weapon : NetworkBehaviour
     private void CmdShoot(Vector3 direction)
     {
         var spawnObject = Instantiate(_bullet, _spawnPoint.position, Quaternion.identity);
+        spawnObject.IgnoreCollisionWith(_ignoreCollider);
 
         spawnObject.Move(direction);
         NetworkServer.Spawn(spawnObject.gameObject);
+        RpcIgnoreCollisionWith(spawnObject);
+    }
+
+    [ClientRpc]
+    private void RpcIgnoreCollisionWith(Bullet bullet)
+    {
+        bullet.IgnoreCollisionWith(_ignoreCollider);
     }
 }

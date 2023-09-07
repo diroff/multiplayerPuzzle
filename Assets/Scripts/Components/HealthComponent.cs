@@ -11,10 +11,31 @@ public class HealthComponent : NetworkBehaviour
     [SerializeField] private UnityEvent _onDie;
     [SerializeField] private HealthChangeEvent _onChange;
 
+    [SyncVar] private int _currentValue;
+    [SyncVar] private bool _isAlive;
+
+    public UnityAction<int> HealthChanged;
+
+    public bool IsAlive => _isAlive;
+
+    private void Start()
+    {
+        Respawn();
+    }
+
+    public void Respawn()
+    {
+        _currentValue = _health;
+        _isAlive = true;
+        HealthChanged?.Invoke(_currentValue);
+    }
+
+    [Server]
     public void ModifyHealth(int healthDelta)
     {
-        _health += healthDelta;
-        _onChange?.Invoke(_health);
+        _currentValue += healthDelta;
+        _onChange?.Invoke(_currentValue);
+        HealthChanged?.Invoke(_currentValue);
 
         if (healthDelta < 0)
         {
@@ -26,13 +47,11 @@ public class HealthComponent : NetworkBehaviour
             _onHeal?.Invoke();
         }
 
-        if (_health <= 0)
+        if (_currentValue <= 0)
+        {
             _onDie?.Invoke();
-    }
-
-    public void SetHealth(int health)
-    {
-        _health = health;
+            _isAlive = false;
+        }
     }
 
     [Serializable]
